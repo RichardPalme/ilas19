@@ -3,6 +3,18 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb,amsfonts,amsthm}
 \usepackage{mathtools}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+%\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+%\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\newcommand{\pluseq}{\mathrel{+}=}
+\newcommand{\minuseq}{\mathrel{-}=}
+
+%\newenvironment{claim}[1]{\par\noindent\underline{Claim:}\space#1}{}
+%\newenvironment{claimproof}[1]{\par\noindent\underline{Proof:}\space#1}{\hfill $\blacksquare$}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -19,6 +31,29 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{2. Identifying the Majority}
+
+Let $\sigma = \langle a_1, \hdots, a_m \rangle, a_i \in [n]$. \\
+
+\begin{algorithm}
+\caption{Algorithm for finding the majority of $\sigma$, if it exists}
+\begin{algorithmic}[1]
+
+\State $c \gets 0$
+    \ForAll{$i \in [m]$}
+    \If{$c=0$}
+        \State$s \gets a_i$
+        \State$c \gets 1$
+    \EndIf
+    \If{$s=a_i$}
+        \State$c \pluseq 1$
+    \Else
+        \State$c \minuseq 1$
+    \EndIf
+\EndFor
+\State\textbf{return} $s$
+
+\end{algorithmic}
+\end{algorithm}
 
 
 
