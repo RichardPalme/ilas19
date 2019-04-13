@@ -6,14 +6,16 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 
-%\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
-%\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
 \newcommand{\pluseq}{\mathrel{+}=}
 \newcommand{\minuseq}{\mathrel{-}=}
 
-%\newenvironment{claim}[1]{\par\noindent\underline{Claim:}\space#1}{}
-%\newenvironment{claimproof}[1]{\par\noindent\underline{Proof:}\space#1}{\hfill $\blacksquare$}
+\newenvironment{claim}[1]{\par\noindent\underline{Claim:}\space#1}{}
+\newenvironment{claimproof}[1]{\par\noindent\underline{Proof:}\space#1}{\hfill $\blacksquare$}
+
+\setlength{\parindent}{0pt}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -55,6 +57,36 @@ Let $\sigma = \langle a_1, \hdots, a_m \rangle$ and $a_i \in [n]$. \\
 \end{algorithmic}
 \end{algorithm}
 
+Let $A(\sigma) = s$ be the output of the algorithm. \\
+
+\begin{claim}
+$A(\sigma)$ is the majority of $\sigma$, if it exists.
+\end{claim}
+
+\begin{claimproof}
+Let $k$ be the number of times $c$ is set to zero in the for loop. We prove the claim by induction over $k$. \\
+
+Base case:\\
+Let $k=0$. Since $c$ is never set to $0$ during the loop,
+we know that $s$ never changes after iteration 1, i.e. $A(\sigma) = a_1$.
+Also, $c$ increases at least one time more often than it decreases,
+so $A(\sigma) = a_1$ has to be the majority of $\sigma$. \\
+
+Step case:\\
+Let $k>0$. Let $d$ be the majority of $\sigma$. Let $j$ be the first iteration where $c$ is zero. $j$ must be even.
+$d$ can occur at most $\frac{j}{2}$ times in $\tau \coloneqq \langle a_1, \hdots, a_j \rangle$,
+otherwise $d$ would be the majority of $\tau$ and $c$ couldn't be zero in iteration $j$. Consequently $d$ will occur at least
+\[
+\floor*{\frac{m}{2}} + 1 - \frac{j}{2} = \floor*{\frac{m-j}{2}} + 1
+\]
+times in $\sigma' = \langle a_{j+1}, \hdots, a_m \rangle$.
+Because $\sigma'$ is a stream of length $m-j$, $d$ is the majority of $\sigma'$.
+Since the number of zeros in $\sigma'$ is smaller than $k$,
+we can apply the inductive hypothesis to see that $A(\sigma') = d$.
+Since in iteration $j$ we have $c=0$, applying the algorithm to $\sigma$ is the same as
+applying it to $\tau$ and then to $\sigma'$. Hence, $A(\sigma) = d$.
+
+\end{claimproof}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
