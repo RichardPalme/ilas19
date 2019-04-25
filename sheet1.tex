@@ -103,6 +103,20 @@ applying it to $\tau$ and then to $\sigma'$. Hence, $A(\sigma) = d$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{5. The $\phi$-HH Problem: Lower Bounds}
+Suppose $\Sigma_1 = \Sigma_2$. Since $S_1 \neq S_2$, there is an $x \in [n]$
+such that w.l.o.g. $x \in S_1, x \notin S_2$. \\
+
+Now let $\sigma_1$ be the concatenation of $\langle S_1 \rangle$ and $\langle x \rangle$,
+and let $\sigma_2$ be the concatenation of $\langle S_2 \rangle$ and $\langle x \rangle$.
+Since the stream lengths of $\sigma_1$ and $\sigma_2$ are $m+1$, we might have more than $m'$ bits at our disposal, but this is not important. \\
+
+Let $\Phi = \frac{2}{m+1}$. Then every item which appears at least twice in $\sigma_1$ or $\sigma_2$ is a $\Phi$-heavy hitter.
+Since $S_1, S_2$ are sets, there is no item that appears twice in $\langle S_1 \rangle$ or $\langle S_2 \rangle$. \\
+
+Since $x \in S_1$ but $x \notin S_2$, $x$ is a heavy hitter of $\sigma_1$, but $x$ is not a heavy hitter of $\sigma_2$.
+But before we processed the last element of the streams, the respective states of the storages $\Sigma_1$ and $\Sigma_2$ were equal by assumption.
+And since the last elements of both $\sigma_1$ and $\sigma_2$ are identical, the algorithm should have identical output for both $\sigma_1$ and $\sigma_2$. But this is not the case.
+So we contradicted our assumption, which means $\Sigma_1$ and $\Sigma_2$ have to be different.
 
 
 \end{document}
