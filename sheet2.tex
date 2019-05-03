@@ -1,0 +1,89 @@
+\documentclass{article}
+\usepackage[margin=0.7in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{mathtools}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\newcommand{\pluseq}{\mathrel{+}=}
+\newcommand{\minuseq}{\mathrel{-}=}
+
+\newenvironment{claim}[1]{\par\noindent\underline{Claim:}\space#1}{}
+\newenvironment{claimproof}[1]{\par\noindent\underline{Proof:}\space#1}{\hfill $\blacksquare$}
+
+\setlength{\parindent}{0pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\title{Intelligent Learning and Analysis Systems SS19, Exercise Sheet 2}
+\author{by Andreas Hene, Niklas Mertens, Richard Palme.\\
+Tutor: Maximilian Thiessen, Group 3}
+\date{\today}
+\maketitle
+
+\section*{Exercise 3}
+\subsection*{Lemma 1}
+Each bucket has exactly size $ w = \ceil*{\frac{1}{\varepsilon}}$.
+$\Rightarrow$ total number of buckets is
+\[
+\frac{m}{w} = \frac{m}{\ceil*{1/\varepsilon}} \leq \varepsilon m
+\]
+So the current bucket id is at most $\varepsilon m$.
+
+\subsection*{Lemma 2}
+Proof by induction. \\
+Base Case: Let $b_{\text{current}} = 1$, let $(e, f, \Delta) \in \mathcal{D}$.
+Since there have been no deletions and no decrementations of $f$ until now,
+we know that $f$ is the true frequency up until this point, i.e. $f = f_e$. \\
+
+Also, $(e, f, \Delta)$ is only deleted when $f \leq 1$, in other words $(e, f, \Delta)$ is only deleted when $f_e = f \leq 1 = b_{\text{current}}$ which proves the base case. \\
+
+Step Case: Let $k > 1$. Suppose that for $b_{\text{current}} < k$ we know that $f_e \leq b_{\text{current}}$ when $(e, f, \Delta)$ gets deleted. \\
+
+Now let $b_{\text{current}} = k$ and $(e, f, \Delta) \in \mathcal{D}$.
+The true frequency of $e$ in the buckets with ids $\Delta+1, \hdots, b_{\text{current}}$
+is equal to $f$, because since then $f$ hasn't been decreased.
+Let $b'$ be the bucket id where $e$ was deleted the last time, if it exists.
+Else set $b'=0$. By the induction hypothesis, the true frequency of $e$ in buckets
+$1, \hdots, b'$ is $\leq b'$, if $b'$ exists. The true frequency in buckets
+$b'+1, \hdots, \Delta$ is $0$. So the true frequency $f_e$ at the current time
+(bucket id $b_{\text{current}}$) is at most $f_e \leq f + b'$. \\
+
+If $(e, f, \Delta)$ gets deleted, we have $f \leq 1$, so $f_e \leq f+b' \leq b'+1$ and $b'$ is at most $b_{\text{current}}-1$, so $f_e \leq b_{\text{current}}$.
+
+\subsection*{Lemma 3}
+If there is no entry for $e$ in $\mathcal{D}$, then there are 2 cases:\\
+Case 1: There has never been an entry for $e$ in $\mathcal{D}$. \\
+Then $f_e = 0 \leq \varepsilon m$.\\
+Case 2: There has been an entry for $e$ in $\mathcal{D}$ before.\\
+Let $b$ be the bucket id when $e$ was deleted the last time. Then $f_e \leq b$ by Lemma 2, and $f_e \leq b \leq \varepsilon m $ by Lemma 1.
+
+\subsection*{Lemma 4}
+$f \leq f_e$, because $f$ gets incremented by 1 at most $f_e$ times. \\
+If $e$ was deleted after processing bucket $b$, then by Lemma 3 the true frequency of $e$ in buckets $1, \hdots, b$ is at most $\varepsilon m$. The true frequency of $e$ in buckets $b+1, \hdots, \Delta$ is 0, and the true frequency in buckets $\Delta+1, \hdots, b_{\text{current}}$ is $f$, because since $e$ was added (in bucket $\Delta+1$), there have been no decreases of $f$,
+and for every occurence of $e$, $f$ was incremented by 1. So putting it all together:
+\[
+f_e \leq \varepsilon m + 0 + f = f + \varepsilon m
+\]
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Exercise 4}
+$d_i$ is the number of elements of $\mathcal{D}$ that were last added to $\mathcal{D}$ during processing of bucket $B-i+1$. Call the i-th summand the contribution of bucket $B-i+1$ to the sum. We want that the contribution of all summands does not exceed the total size of buckets $B-j+1, \hdots, B$ (which is $jw$). \\
+
+So if element $e$ was created during processing of $B-i+1$, then $e$ survives the
+deletion/decrementing process $i-1$ times. This can only happen if $e$ occurs at least $i$ times in buckets $B-i+1, \hdots B$. So $e$ is allowed a contribution of $i$. So the contribution of all the elements last added to $\mathcal{D}$ during processing of bucket $B-i+1$ is allowed to be $id_i$, because this way the contribution of all summands can't exceed the total size of $B-j+1, \hdots B$, i.e.
+\[
+\sum_{i=1}^B id_i \leq jw
+\]
+
+
+
+
+\end{document}
