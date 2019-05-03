@@ -48,14 +48,15 @@ Step Case: Let $k > 1$. Suppose that for $b_{\text{current}} < k$ we know that $
 
 Now let $b_{\text{current}} = k$ and $(e, f, \Delta) \in \mathcal{D}$.
 The true frequency of $e$ in the buckets with ids $\Delta+1, \hdots, b_{\text{current}}$
-is equal to $f$, because since then $f$ hasn't been decreased.
+is $\leq f + (b_{\text{current}}-1 - \Delta)$, because $f$ gets decremented by 1 at most $b_{\text{current}} -1 -\Delta$ times. \\
 Let $b'$ be the bucket id where $e$ was deleted the last time, if it exists.
 Else set $b'=0$. By the induction hypothesis, the true frequency of $e$ in buckets
 $1, \hdots, b'$ is $\leq b'$, if $b'$ exists. The true frequency in buckets
 $b'+1, \hdots, \Delta$ is $0$. So the true frequency $f_e$ at the current time
-(bucket id $b_{\text{current}}$) is at most $f_e \leq f + b'$. \\
+(bucket id $b_{\text{current}}$) is at most $f_e \leq f + b_{\text{current}}-1 - \Delta + b'$. \\
+Since $b' \leq \Delta$, we get: $f_e \leq f + b_{\text{current}} - 1$.\\
 
-If $(e, f, \Delta)$ gets deleted, we have $f \leq 1$, so $f_e \leq f+b' \leq b'+1$ and $b'$ is at most $b_{\text{current}}-1$, so $f_e \leq b_{\text{current}}$.
+If $(e, f, \Delta)$ gets deleted, we have $f \leq 1$, so $f_e \leq f+b_{\text{current}}-1 \leq b_{\text{current}}$.
 
 \subsection*{Lemma 3}
 If there is no entry for $e$ in $\mathcal{D}$, then there are 2 cases:\\
@@ -66,8 +67,10 @@ Let $b$ be the bucket id when $e$ was deleted the last time. Then $f_e \leq b$ b
 
 \subsection*{Lemma 4}
 $f \leq f_e$, because $f$ gets incremented by 1 at most $f_e$ times. \\
-If $e$ was deleted after processing bucket $b$, then by Lemma 3 the true frequency of $e$ in buckets $1, \hdots, b$ is at most $\varepsilon m$. The true frequency of $e$ in buckets $b+1, \hdots, \Delta$ is 0, and the true frequency in buckets $\Delta+1, \hdots, b_{\text{current}}$ is $f$, because since $e$ was added (in bucket $\Delta+1$), there have been no decreases of $f$,
-and for every occurence of $e$, $f$ was incremented by 1. So putting it all together:
+If the last time $e$ was deleted was after processing bucket $b$, then by Lemma 3 the true frequency of $e$ in buckets
+$1, \hdots, b$ is at most $\varepsilon m$. The true frequency of $e$ in buckets
+$b+1, \hdots, \Delta$ is 0, and the true frequency in buckets
+$\Delta+1, \hdots, b_{\text{current}}$ is  at most $f$. So:
 \[
 f_e \leq \varepsilon m + 0 + f = f + \varepsilon m
 \]
