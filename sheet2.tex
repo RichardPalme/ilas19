@@ -86,7 +86,41 @@ deletion/decrementing process $i-1$ times. This can only happen if $e$ occurs at
 \sum_{i=1}^B id_i \leq jw
 \]
 
+\newpage
+\section*{Exercise 2}
+Let $m_1 \coloneqq \lvert \sigma_1 \rvert ,m_2 \coloneqq \lvert \sigma_2 \rvert, m \coloneqq m_1 + m_2$\\
+$m'_1 \coloneqq \sum_{l=1}^{k-1}A_1[l], m'_2 \coloneqq \sum_{l=1}^{k-1}A_2[l], m' \coloneqq \sum_{l=1}^{k-1}A[l]$.\\
+$c_k \coloneqq $ counter of k-th most frequent item in $A_1 \oplus A_2$\\
+Let $i \in \text{keys}(A).$\\
+The estimated frequency of $i$ in $\sigma_1$ is at most $\frac{m_1 - m'_1}{k}$ smaller than the true frequency of $i$ in $\sigma_1$.\\
+The estimated frequency of $i$ in $\sigma_2$ is at most $\frac{m_2 - m'_2}{k}$ smaller than the true frequency of $i$ in $\sigma_2$.\\
+This the estimated frequency of $i$ in $\sigma_1 \otimes \sigma_2$ is at most $\frac{m_1 - m'_1}{k} + \frac{m_2 - m'_2}{k} + c_k$ smaller than the true frequency of $i$ in $\sigma_1 \otimes \sigma_2$.\\
+\[
+\Rightarrow \hat{f}_i \geq f_i - \frac{m-(m'_1 + m'_2 -kc_k)}{k}
+\]
+\begin{claim}
+$m'_1 + m'_2 -kc_k \geq m'$
+\end{claim}
+\begin{claimproof}
+Case 1: $\lvert \text{keys}(A_1) \cup \text{keys}(A_2) \rvert \leq k-1$\\
+Then $c_k = 0$ and $m' = m'_1 + m'_2$.
 
+Case 2: $\lvert \text{keys}(A_1) \cup \text{keys}(A_2) \rvert \geq k$\\
+In line 5 of Misra-Gries synopses algorithm we have $m'_1 + m'_2 \geq \widetilde{m}' + c_k$,
+since the k-th most frequent item is not in $A$ ($\widetilde{m}'$ denotes $m'$ at this point of the algorithm).\\
+In line 7 of the algorithm, $\widetilde{m}'$ is reduced by $(k-1)c_k$, i.e.
+\[
+m' = \widetilde{m}' - (k-1)c_k \Rightarrow m'_1 + m'_2 \geq m' + kc_k
+\]
+\end{claimproof}
+
+So
+\[
+\hat{f}_i \geq f_i - \frac{m-m'}{k}
+\]
+
+$\hat{f}_i \leq f_i$, because $A_1[i]$ and $A_2[i]$ are underestimations of the true frequencies of $i$ in $\sigma_1, \sigma_2$.
+So $A_1[i] + A_2[i]$ is an underestimation of $f_i$ in $\sigma_1 \otimes \sigma_2$, so $A[i]$ is an underestimation of $f_i$ as well.
 
 
 \end{document}
