@@ -13122,10 +13122,13 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">load_ext</span> line_profiler
+
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">math</span>
 
 <span class="kn">import</span> <span class="nn">sympy</span>
@@ -13154,7 +13157,7 @@ $$ (j-1) \cdot 2^{h - \text{lvl}} + 1 $$</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_repr</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
@@ -13180,14 +13183,16 @@ $$ (j+1) \cdot 2^{h-(\text{lvl} + 1)} + 1$$</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_children</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">lvl</span> <span class="o">==</span> <span class="n">h</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">u</span><span class="p">]</span>
-    <span class="n">j</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">u</span> <span class="o">/</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="n">lvl</span><span class="p">))</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">u</span><span class="p">,</span> <span class="n">u</span> <span class="o">+</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="p">(</span><span class="n">lvl</span><span class="o">+</span><span class="mi">1</span><span class="p">))]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_children</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">lvl</span> <span class="o">!=</span> <span class="n">h</span><span class="p">:</span>
+        <span class="n">right_child</span> <span class="o">=</span> <span class="n">u</span> <span class="o">+</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="p">(</span><span class="n">lvl</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">right_child</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">right_child</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">children</span>
 </pre></div>
 
     </div>
@@ -13197,7 +13202,7 @@ $$ (j+1) \cdot 2^{h-(\text{lvl} + 1)} + 1$$</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">base_p</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
@@ -13209,7 +13214,7 @@ $$ (j+1) \cdot 2^{h-(\text{lvl} + 1)} + 1$$</p>
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">res</span>
 
-<span class="k">def</span> <span class="nf">_hashfunc</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">hashfunc</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">base_p</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">%</span> <span class="n">p</span>
 </pre></div>
 
@@ -13220,11 +13225,11 @@ $$ (j+1) \cdot 2^{h-(\text{lvl} + 1)} + 1$$</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">_hashfunc</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">hashfunc</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13251,27 +13256,7 @@ $$ (j+1) \cdot 2^{h-(\text{lvl} + 1)} + 1$$</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">print_hashfuncs</span><span class="p">(</span><span class="n">hashfuncs</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">hashfunc</span> <span class="ow">in</span> <span class="n">hashfuncs</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">hashfunc</span><span class="p">(</span><span class="n">u</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">count_min_sketch</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
@@ -13282,31 +13267,32 @@ $$ (j+1) \cdot 2^{h-(\text{lvl} + 1)} + 1$$</p>
     <span class="n">p</span> <span class="o">=</span> <span class="n">w</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">sympy</span><span class="o">.</span><span class="n">isprime</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
         <span class="n">p</span> <span class="o">+=</span> <span class="mi">1</span>
-    
+
     <span class="c1"># choose k such that p^k - 1 &gt;= n</span>
     <span class="c1"># i.e. k &gt;= log(n+1, p)</span>
     <span class="n">k</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
 
-    <span class="n">hashfuncs</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="c1">#hashfuncs = []</span>
+    <span class="c1">#for _ in range(d):</span>
+    <span class="c1">#    a = np.asarray([np.random.randint(p) for _ in range(k)])</span>
+    <span class="c1">#    b = np.random.randint(p)</span>
+    <span class="c1">#    hashfuncs.append(lambda u, a=a, b=b: _hashfunc(u, a, b, p, k))</span>
+
+    <span class="n">hashfuncs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
         <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">)])</span>
         <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-        <span class="n">hashfuncs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="k">lambda</span> <span class="n">u</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">:</span> <span class="n">_hashfunc</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
-    <span class="n">print_hashfuncs</span><span class="p">(</span><span class="n">hashfuncs</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">hashfuncs</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="n">hashfunc</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
 
     <span class="n">h</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-    
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;eps&#39;</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="s1">&#39;delta&#39;</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="s1">&#39;threshold&#39;</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
-    
+       
     <span class="c1"># note that, since w isn&#39;t necessarily a prime number,</span>
     <span class="c1"># we might have to make w larger (i.e. take p instead of w)</span>
     <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">h</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
-    
-    <span class="c1"># dtype is int16, so 2 bytes. chunksize is 5*10**5,</span>
-    <span class="c1"># so one chunk is exactly 1 MB and</span>
+
+    <span class="c1"># dtype is int16, so 2 bytes. chunksize is 10**5,</span>
+    <span class="c1"># so one chunk is exactly 0.2 MB and</span>
     <span class="c1"># should fit comfortably into cache.</span>
     <span class="n">chunks</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
         <span class="n">filepath</span><span class="p">,</span>
@@ -13315,44 +13301,46 @@ $$ (j+1) \cdot 2^{h-(\text{lvl} + 1)} + 1$$</p>
         <span class="n">squeeze</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">,</span>
         <span class="n">delim_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">chunksize</span><span class="o">=</span><span class="mi">5</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">5</span>
+        <span class="n">chunksize</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">5</span>
     <span class="p">)</span>
-    <span class="n">tmp</span> <span class="o">=</span> <span class="mi">0</span>
+
     <span class="c1"># process the stream. Each chunk is of type pandas.series</span>
     <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">continue</span>
-            <span class="n">tmp</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">for</span> <span class="n">lvl</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">h</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
                 <span class="n">u</span> <span class="o">=</span> <span class="n">get_repr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">lvl</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="n">tmp</span> <span class="o">%</span> <span class="mi">10000</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="n">lvl</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
-                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">hashfunc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hashfuncs</span><span class="p">):</span>
-                    <span class="n">C</span><span class="p">[(</span><span class="n">lvl</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">hashfunc</span><span class="p">(</span><span class="n">u</span><span class="p">))]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="c1">#for i, hashfunc in enumerate(hashfuncs):</span>
+                    <span class="c1">#C[(lvl, i, hashfunc(u))] += 1</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+                    <span class="n">C</span><span class="p">[(</span><span class="n">lvl</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">hashfuncs</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">)])]</span> <span class="o">+=</span> <span class="mi">1</span>
     
     <span class="c1"># now we do BFS. the values in explore_current are</span>
     <span class="c1"># the representatives of the dyadic arrays that</span>
     <span class="c1"># currently get explored on this level.</span>
     <span class="n">explore_current</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">explore_next</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">hash_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">approx_freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">lvl</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">h</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">explore_current</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">explore_current</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">hashfunc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hashfuncs</span><span class="p">):</span>
-                <span class="n">hash_values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[(</span><span class="n">lvl</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">hashfunc</span><span class="p">(</span><span class="n">u</span><span class="p">))]</span>
-            <span class="k">if</span> <span class="n">hash_values</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
-                <span class="n">explore_next</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">get_children</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+            <span class="c1">#for i, hashfunc in enumerate(hashfuncs):</span>
+            <span class="c1">#    approx_freq[i] = C[(lvl, i, hashfunc(u))]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+                <span class="n">approx_freq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[(</span><span class="n">lvl</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">hashfuncs</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">)])]</span>
+            <span class="k">if</span> <span class="n">approx_freq</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
+                <span class="n">explore_next</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">get_children</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
         <span class="n">explore_current</span> <span class="o">=</span> <span class="n">explore_next</span>
         <span class="n">explore_next</span> <span class="o">=</span> <span class="p">[]</span>
         
     <span class="c1"># prepare the output:</span>
     <span class="n">approx_frequency</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">explore_current</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">hashfunc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hashfuncs</span><span class="p">):</span>
-            <span class="n">hash_values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[(</span><span class="n">h</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">hashfunc</span><span class="p">(</span><span class="n">u</span><span class="p">))]</span>
-        <span class="n">approx_frequency</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hash_values</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+        <span class="c1">#for i, hashfunc in enumerate(hashfuncs):</span>
+        <span class="c1">#    approx_freq[i] = C[(h, i, hashfunc(u))]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+            <span class="n">approx_freq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[(</span><span class="n">h</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">hashfuncs</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">)])]</span>
+        <span class="n">approx_frequency</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">approx_freq</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
         
     <span class="k">return</span> <span class="n">explore_current</span><span class="p">,</span> <span class="n">approx_frequency</span>
 </pre></div>
@@ -13364,12 +13352,19 @@ $$ (j+1) \cdot 2^{h-(\text{lvl} + 1)} + 1$$</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#filepath = &#39;data/supereasy&#39;</span>
-<span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;data/easy.txt&#39;</span>
-<span class="c1">#filepath = &#39;data/largest_40k.txt&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;data/easy.txt&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;data/large_15k.txt&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;data/large_25k.txt&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;data/larger_40k.txt&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;data/largest_40k.txt&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;data/wide_1k.txt&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">filepath</span> <span class="o">=</span> <span class="n">filename</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span>
@@ -13377,7 +13372,7 @@ $$ (j+1) \cdot 2^{h-(\text{lvl} + 1)} + 1$$</p>
     <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span>
     
 <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="n">result</span><span class="p">,</span> <span class="n">freq</span> <span class="o">=</span> <span class="n">count_min_sketch</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">freq</span> <span class="o">=</span> <span class="n">count_min_sketch</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
 <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">elapsed_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
 
@@ -13399,99 +13394,8 @@ $$ (j+1) \cdot 2^{h-(\text{lvl} + 1)} + 1$$</p>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>0 1 2 3 4 5 6 7 8 9 10 11 
-
-2 0 3 1 4 2 0 3 1 4 2 0 
-4 2 0 3 1 3 1 4 2 0 2 0 
-1 0 4 3 2 1 0 4 3 2 1 0 
-2 1 0 4 3 3 2 1 0 4 4 3 
-eps 0.6 delta 0.1 
- n 12 threshold 30000 
- d 4 w 4 
- p 5 k 2 h 4
-[[9999    0    0    0    0]
- [   0    0 9999    0    0]
- [9999    0    0    0    0]
- [   0 9999    0    0    0]]
-[[19999     0     0     0     0]
- [    0     0 19999     0     0]
- [19999     0     0     0     0]
- [    0 19999     0     0     0]]
-[[29999     0     0     0     0]
- [    0     0 29999     0     0]
- [29999     0     0     0     0]
- [    0 29999     0     0     0]]
-[[39999     0     0     0     0]
- [    0     0 39999     0     0]
- [39999     0     0     0     0]
- [    0 39999     0     0     0]]
-[[49999     0     0     0     0]
- [    0     0 49999     0     0]
- [49999     0     0     0     0]
- [    0 49999     0     0     0]]
-[[59999     0     0     0     0]
- [    0     0 59999     0     0]
- [59999     0     0     0     0]
- [    0 59999     0     0     0]]
-[[69999     0     0     0     0]
- [    0     0 69999     0     0]
- [69999     0     0     0     0]
- [    0 69999     0     0     0]]
-[[79999     0     0     0     0]
- [    0     0 79999     0     0]
- [79999     0     0     0     0]
- [    0 79999     0     0     0]]
-[[89999     0     0     0     0]
- [    0     0 89999     0     0]
- [89999     0     0     0     0]
- [    0 89999     0     0     0]]
-[[99999     0     0     0     0]
- [    0     0 99999     0     0]
- [99999     0     0     0     0]
- [    0 99999     0     0     0]]
-[[109999      0      0      0      0]
- [     0      0 109999      0      0]
- [109999      0      0      0      0]
- [     0 109999      0      0      0]]
-[[119999      0      0      0      0]
- [     0      0 119999      0      0]
- [119999      0      0      0      0]
- [     0 119999      0      0      0]]
-[[129999      0      0      0      0]
- [     0      0 129999      0      0]
- [129999      0      0      0      0]
- [     0 129999      0      0      0]]
-[[139999      0      0      0      0]
- [     0      0 139999      0      0]
- [139999      0      0      0      0]
- [     0 139999      0      0      0]]
-[[149999      0      0      0      0]
- [     0      0 149999      0      0]
- [149999      0      0      0      0]
- [     0 149999      0      0      0]]
-[[159999      0      0      0      0]
- [     0      0 159999      0      0]
- [159999      0      0      0      0]
- [     0 159999      0      0      0]]
-[[169999      0      0      0      0]
- [     0      0 169999      0      0]
- [169999      0      0      0      0]
- [     0 169999      0      0      0]]
-[[179999      0      0      0      0]
- [     0      0 179999      0      0]
- [179999      0      0      0      0]
- [     0 179999      0      0      0]]
-[[189999      0      0      0      0]
- [     0      0 189999      0      0]
- [189999      0      0      0      0]
- [     0 189999      0      0      0]]
-[1]
-[1, 9]
-[1, 5, 9, 13]
-[1, 3, 5, 7, 9, 11]
-[3, 4, 5, 6, 7, 8, 9, 10]
-[3, 4, 5, 8, 9, 10] [48854, 50562, 31157, 44252, 30612, 31157]
-time in seconds: 163
+<pre>[53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 185, 186, 187, 188, 189, 190, 191, 192, 1065, 1066, 1067, 1068, 1069, 1070, 1071, 1072, 1073, 1074, 1075, 1076, 1077, 1078, 1079, 1080, 1081, 1082, 1083, 1084, 1085, 1086, 1087, 1088, 1089, 1090, 1091, 1092, 1093, 1094, 1095, 1096, 1097, 1098, 1099, 1100, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 1108, 1109, 1110, 1111, 1112, 1113, 1114, 1115, 1116, 1117, 1118, 1119, 1120] [79751, 70533, 76668, 75342, 83180, 80178, 80807, 84320, 82464, 80012, 78020, 76022, 76365, 74773, 81975, 83237, 76289, 77815, 75930, 81561, 76861, 76029, 74911, 70533, 78207, 80012, 78020, 76022, 76365, 74773, 81975, 83705, 78931, 80120, 79751, 78501, 76668, 75342, 82781, 77815, 75930, 80012, 78020, 76022, 76365, 70533, 78501, 76668, 75342, 74911, 80178, 78207, 83190, 84435, 88989, 88000, 92116, 90967, 91217, 89657, 82781, 76289, 75930, 81561, 78931, 80120, 80786, 70533, 79885, 89266, 83209, 82966, 83227, 83294, 76861, 76029, 74911, 80480, 78207, 79751, 78501, 76668, 75342, 76289, 74773, 81561, 87737, 85377, 83578, 70533, 79751, 78501, 76668, 75342, 83180, 80178, 80012, 78020, 76022, 76365, 74773, 76861, 76029, 74911, 80120, 76289, 77815, 75930, 80480, 78207, 84320, 70533, 79885, 78020, 76022, 76365, 74773, 81975, 83705, 78931, 80120, 80786, 82632, 81553, 74773, 70533, 74911, 78931, 78207, 76668, 75342, 83180, 81553, 79751, 78501, 76668, 75342, 74911, 80178, 78207, 82781, 76289, 77815, 75930, 81561, 88766, 89611, 89939, 79885, 80178, 78931, 80120, 80786, 82632, 83190, 88973, 89805, 89266, 83209, 82966, 83227, 83294, 76861, 76029, 74911, 75930, 78207, 78020, 76022, 76365, 70533, 84908, 84080, 88652, 87737, 85377, 83578, 81553, 79751, 78501, 76668, 75342, 80012, 78020, 76022, 76289, 74773, 75930]
+time in seconds: 1121
 </pre>
 </div>
 </div>
@@ -13502,10 +13406,10 @@ time in seconds: 163
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">brute</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">brute</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>   
     <span class="n">chunks</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
         <span class="n">filepath</span><span class="p">,</span>
         <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -13516,7 +13420,6 @@ time in seconds: 163
         <span class="n">chunksize</span><span class="o">=</span><span class="mi">5</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">5</span>
     <span class="p">)</span>
     
-    <span class="c1"># does count 0 as well</span>
     <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
     
@@ -13534,10 +13437,10 @@ time in seconds: 163
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;data/easy.txt&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">filepath</span> <span class="o">=</span> <span class="n">filename</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span>
@@ -13562,6 +13465,61 @@ time in seconds: 163
 <pre>[ 0  1  2  3  4  5  6  7  8  9 10 11 12]
 [   23   596  5954 23847 38313 24983 12249 24878 38298 24068  6174   590
     24]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">timeit</span> brute(filepath, n)
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[ 0  1  2  3  4  5  6  7  8  9 10 11 12]
+[   23   596  5954 23847 38313 24983 12249 24878 38298 24068  6174   590
+    24]
+[ 0  1  2  3  4  5  6  7  8  9 10 11 12]
+[   23   596  5954 23847 38313 24983 12249 24878 38298 24068  6174   590
+    24]
+[ 0  1  2  3  4  5  6  7  8  9 10 11 12]
+[   23   596  5954 23847 38313 24983 12249 24878 38298 24068  6174   590
+    24]
+[ 0  1  2  3  4  5  6  7  8  9 10 11 12]
+[   23   596  5954 23847 38313 24983 12249 24878 38298 24068  6174   590
+    24]
+[ 0  1  2  3  4  5  6  7  8  9 10 11 12]
+[   23   596  5954 23847 38313 24983 12249 24878 38298 24068  6174   590
+    24]
+[ 0  1  2  3  4  5  6  7  8  9 10 11 12]
+[   23   596  5954 23847 38313 24983 12249 24878 38298 24068  6174   590
+    24]
+[ 0  1  2  3  4  5  6  7  8  9 10 11 12]
+[   23   596  5954 23847 38313 24983 12249 24878 38298 24068  6174   590
+    24]
+[ 0  1  2  3  4  5  6  7  8  9 10 11 12]
+[   23   596  5954 23847 38313 24983 12249 24878 38298 24068  6174   590
+    24]
+1.57 s ± 14.6 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 </pre>
 </div>
 </div>
